@@ -2,15 +2,15 @@ const passport = require('passport');
 const db = require('../models');
 const local = require('./local');
 module.exports = ()=>{
-    passport.serializeUser((user,done)=>{    // 서버쪽에 [{ id:3, cookie: 'asdfgh'}] id는 서버에 cookie는 쿠키에 보내서 이를 통해 사용자를 확인함 id는 짧기 때문에 용량을 차지하지 않음
-        return done(null, user.id);
+    passport.serializeUser((userinfo,done)=>{    // 서버쪽에 [{ id:3, cookie: 'asdfgh'}] id는 서버에 cookie는 쿠키에 보내서 이를 통해 사용자를 확인함 id는 짧기 때문에 용량을 차지하지 않음
+        return done(null, userinfo.id);
     });
     passport.deserializeUser(async (id, done)=>{        //id:3을 통해서 아무것도 알지 못하기에 deserializeUser을 통해서 쿠키값을 통해 id값을 찾아내고 이 id값을 통해서 user정보를 찾아옴
         try{
-            const user = await debug.User.findOne({
+            const userinfo = await db.user.findOne({
                 where: id,
             });
-            return done(null, user);        //user정보는 req.user에 저장 됨
+            return done(null, userinfo);        //user정보는 req.user에 저장 됨
         } catch (e){
             console.error(e);
             return done(e);

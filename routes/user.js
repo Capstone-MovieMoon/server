@@ -28,25 +28,25 @@ router.get('/', function(req, res){
 
 router.post('/', async (req, res, next) => {       // POST /api/user 회원가입
     try {
-        console.log(req.body.user_id);
-        const exUser = await db.User.findOne({
+        console.log(req.body.userId);
+        const exUser = await db.user.findOne({
             where: {
-                user_id: req.body.user_id,
+                userId: req.body.userId,
             },
         });
         if(exUser){
             return res.status(403).send('이미 사용중인 아이디입니다.');
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
-        const newUser = await db.User.create({
+        const newUser = await db.user.create({
             nickname: req.body.nickname,
-            user_id: req.body.user_id,
+            userId: req.body.userId,
             password: hashedPassword,
         })
         console.log(newUser);
         return res.status(200).json(newUser);
     } catch (e) {
-        console.e(e);
+        console.log(e);
         return res.status(403).send(e);
         return next(e);
     }
@@ -60,7 +60,7 @@ router.post('/logout/', (req,res)=>{
 });
 
 router.post('/login', (req,res, next)=>{     //POST /api/user/login
-    passport.authenticate('local', (err, user, info)=>{
+    passport.authenticate('local', (err, userinfo, info)=>{
         if(err){
             console.error(err);
             return next(err);
@@ -68,12 +68,12 @@ router.post('/login', (req,res, next)=>{     //POST /api/user/login
         if(info){
             return res.status(401).send(info.reason);
         }
-        console.log('hello! '+user.nickname);
-        return req.login(user, (loginErr)=>{
+        console.log('hello! '+userinfo.nickname);
+        return req.login(userinfo, (loginErr)=>{
             if(loginErr){
                 return next(loginErr);
             }
-            const filteredUser = Object.assign({}, user.toJSON());
+            const filteredUser = Object.assign({}, userinfo.toJSON());
             delete filteredUser.password;
             return res.json(filteredUser);
         });

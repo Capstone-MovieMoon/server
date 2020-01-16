@@ -10,7 +10,7 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
-db.User = require('./user')(sequelize, Sequelize);
+db.user = require('./user')(sequelize, Sequelize);
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

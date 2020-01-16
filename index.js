@@ -44,6 +44,6 @@ app.get('/', (req,res)=>{
 
 app.use('/api/user', userAPIRouter);
 
-app.listen(3006, ()=>{
-    console.log('server is running on localhost:3006');
+app.listen(4000, ()=>{
+    console.log('server is running on localhost:4000');
 });

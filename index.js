@@ -46,5 +46,4 @@ app.use('/api/user', userAPIRouter);
 
 app.listen(3006, ()=>{
     console.log('server is running on localhost:3006');
-    console.log('nodemon is running')
 });

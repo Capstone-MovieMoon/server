@@ -8,7 +8,7 @@ const passport = require('passport');
 
 const passportConfig = require('./passport');
 const db = require('./models');
-const userAPIRouter = require('./routes/user')
+
 
 dotenv.config();
 const app = express();
@@ -38,12 +38,8 @@ app.use(cors({
 
 
 
-app.get('/', (req,res)=>{
-    res.send('Hello, server');
-}); 
 
-app.use('/api/user', userAPIRouter);
 
-app.listen(3006, ()=>{
-    console.log('server is running on localhost:3006');
+app.listen(4000, ()=>{
+    console.log('server is running on localhost:4000');
 });

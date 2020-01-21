@@ -6,24 +6,7 @@ const db = require('../models');
 const router = express.Router();
 
 router.get('/', function(req, res){
-    var output = `
-        <h1>Register</h1>
-        <form method="post">
-         <p>
-          <input type = "text", name="user_id" placeholder="user_id">
-         </p>
-         <p>
-          <input type="password" name="password" placeholder="password">
-         </p>
-         <p>
-          <input type="text" name="nickname" placeholder="nickname">
-         </p>
-         <p>
-          <input type="submit">
-         </p>
-        </form>
-        `;
-        res.send(output);
+
 })
 
 router.post('/', async (req, res, next) => {       // POST /api/user 회원가입

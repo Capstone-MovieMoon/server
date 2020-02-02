@@ -5,6 +5,7 @@ const multer=require('multer');
 const path = require('path');
 const multerS3 = require('multer-s3') 
 const router=express.Router();
+const AWS = require('aws-sdk');
 
 AWS.config.update({
     region: 'ap-northeast-2',
@@ -16,7 +17,7 @@ const upload = multer({
         s3:new AWS.S3(),
         bucket: 'moviemoon1',
         key(req,file,cb){
-            cb(null, `original/${+new Date()}${path.basename(file.origianlname)}`);
+            cb(null, `original/${+new Date()}${path.basename(file.originalname)}`);
         },
     }),
     limit: { fileSize: 20 * 1024 * 1024 },

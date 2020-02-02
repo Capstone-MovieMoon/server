@@ -5,7 +5,7 @@ const db = require('../models');
 const multer = require('multer');
 const path = require('path');
 const multerS3 = require('multer-s3') 
-
+const AWS = require('aws-sdk');
 const router = express.Router();
 
 router.get('/', function(req, res){

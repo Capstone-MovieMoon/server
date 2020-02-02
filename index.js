@@ -47,6 +47,6 @@ app.use('/api/diary', diaryAPIRouter);
 app.use('/api/wishlist', wishAPIRouter);
 app.use('/api/movie', movieAPIRouter);
 app.use('/api/boxoffice', boxAPIRouter);
-app.listen(4000, ()=>{
-    console.log('server is running on localhost:4000');
+app.listen(process.env/NODE_ENV==='production' ? process.env.PORT : 4000, ()=>{
+    console.log(`server is running on ${process.env.PORT}`);
 });

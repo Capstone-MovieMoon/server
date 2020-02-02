@@ -21,13 +21,13 @@ AWS.config.update({
 console.log('업로드 시작');
 const upload = multer({
     storage: multerS3({
-        s3:new AWS.S3(),
-        bucket: 'moviemoon1',
-        key(req,file,cb){
-            cb(null, `original/${+new Date()}${path.basename(file.origianlname)}`);
-        },
+      s3: new AWS.S3(),
+      bucket: 'moviemoon1',
+      key(req, file, cb) {
+        cb(null, `original/${+new Date()}${path.basename(file.originalname)}`);
+      },
     }),
-    limit: { fileSize: 20 * 1024 * 1024 },
+    limits: { fileSize: 20 * 1024 * 1024 },
   });
 
 router.post('/image', upload.single('image'), (req,res)=>{      //이미지 업로드   /api/user/image

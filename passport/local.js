@@ -5,17 +5,17 @@ const db = require('../models');
 
 module.exports = () =>{
     passport.use(new LocalStrategy({
-        usernameField: 'user_id',
+        usernameField: 'userId',
         passwordFIeld: 'password',       
-    }, async (user_id, password, done)=>{
+    }, async (userId, password, done)=>{
         try {
-            const user = await db.User.findOne( { where: {user_id}});
-            if(!user){
+            const userinfo = await db.user.findOne( { where: {userId}});
+            if(!userinfo){
                 return done(null, false, {reason: '존재하지 않는 사용자입니다!'});
             }
-            const result = await bcrypt.compare(password, user.password);
+            const result = await bcrypt.compare(password, userinfo.password);
             if(result){
-                return done(null, user);        //로그인 성공
+                return done(null, userinfo);        //로그인 성공
             }
             return done(null, false, {reason: '비밀번호가 틀립니다.'});
         } catch(e){

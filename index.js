@@ -8,7 +8,9 @@ const passport = require('passport');
 
 const passportConfig = require('./passport');
 const db = require('./models');
-const userAPIRouter = require('./routes/user')
+const userAPIRouter = require('./routes/user');
+const diaryAPIRouter = require('./routes/movie/diary');
+const wishAPIRouter = require('./routes/movie/diary');
 
 dotenv.config();
 const app = express();
@@ -16,6 +18,10 @@ db.sequelize.sync();
 passportConfig();
 
 app.use(morgan('dev'));
+app.use(cors({
+    origin:true,
+    credentials:true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -31,19 +37,13 @@ app.use(expressSession({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors({
-    origin:true,
-    credentials:true,
-}));
 
-
-
-app.get('/', (req,res)=>{
-    res.send('Hello, server');
-}); 
 
 app.use('/api/user', userAPIRouter);
+app.use('/api/diary', diaryAPIRouter);
+app.use('/api/wishlist', wishAPIRouter);
 
-app.listen(3006, ()=>{
-    console.log('server is running on localhost:3006');
+
+app.listen(4000, ()=>{
+    console.log('server is running on localhost:4000');
 });

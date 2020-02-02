@@ -16,7 +16,6 @@ router.get('/',async(req,res,next)=>{        //api/boxoffice
         order:[['ranking']]
     });
     if(boxOfficeList){
-        console.log(123);
         return res.status(200).json(boxOfficeList);
         
     }

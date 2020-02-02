@@ -12,7 +12,13 @@ router.get('/', function(req, res){
 
 })
 
-//
+AWS.config.update({
+    region: 'ap-northeast-2',
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  });
+
+console.log('업로드 시작');
 const upload = multer({
     storage: multerS3({
         s3:new AWS.S3(),

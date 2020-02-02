@@ -49,6 +49,7 @@ app.use('/api/diary', diaryAPIRouter);
 app.use('/api/wishlist', wishAPIRouter);
 app.use('/api/movie', movieAPIRouter);
 app.use('/api/boxoffice', boxAPIRouter);
+
 app.get('/', (req, res)=>{
     res.send('백엔드 서버 정상 동작!');
 })

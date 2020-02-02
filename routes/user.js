@@ -4,6 +4,7 @@ const passport = require('passport');
 const db = require('../models');
 const multer = require('multer');
 const path = require('path');
+const multerS3 = require('multer-s3') 
 
 const router = express.Router();
 

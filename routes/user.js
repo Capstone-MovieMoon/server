@@ -43,7 +43,7 @@ router.patch('/image', upload.none(), async(req,res,next)=>{      //프로필 �
             where:{id:req.user.id},
         });
         res.send('프로필 사진 등록 완료!');
-    } catch (error) {
+    } catch (e) {
         console.error(e);
         next(e);
     }

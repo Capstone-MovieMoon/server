@@ -3,25 +3,27 @@ const express=require('express')
 const db=require('../../models')
 const multer=require('multer');
 const path = require('path');
-
+const multerS3 = require('multer-s3') 
 const router=express.Router();
 
+AWS.config.update({
+    region: 'ap-northeast-2',
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+});
 const upload = multer({
-    storage: multer.diskStorage({
-      destination(req, file, done) {
-        done(null, 'uploads');
-      },
-      filename(req, file, done) {
-        const ext = path.extname(file.originalname);
-        const basename = path.basename(file.originalname, ext); // 123.png, basename = 123, ext = .png
-        done(null, basename + Date.now() + ext);
-      },
+    storage: multerS3({
+        s3:new AWS.S3(),
+        bucket: 'moviemoon1',
+        key(req,file,cb){
+            cb(null, `original/${+new Date()}${path.basename(file.origianlname)}`);
+        },
     }),
     limit: { fileSize: 20 * 1024 * 1024 },
   });
 router.post('/image', upload.array('image'), (req,res)=>{      //이미지 업로드   /api/diary/image
     console.log(req.files);
-    res.json(req.files);
+    res.json(req.files.map(v=>v.location));
 })
 router.get('/',async(req,res,next)=>{   //다이어리 리스트       //    /api/diary
     try{

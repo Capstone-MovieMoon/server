@@ -13,15 +13,12 @@ router.get('/', function(req, res){
 
 //
 const upload = multer({
-    storage: multer.diskStorage({
-      destination(req, file, done) {
-        done(null, 'uploads');
-      },
-      filename(req, file, done) {
-        const ext = path.extname(file.originalname);
-        const basename = path.basename(file.originalname, ext); // 제로초.png, basename = 제로초, ext = .png
-        done(null, basename + Date.now() + ext);
-      },
+    storage: multerS3({
+        s3:new AWS.S3(),
+        bucket: 'moviemoon1',
+        key(req,file,cb){
+            cb(null, `original/${+new Date()}${path.basename(file.origianlname)}`);
+        },
     }),
     limit: { fileSize: 20 * 1024 * 1024 },
   });

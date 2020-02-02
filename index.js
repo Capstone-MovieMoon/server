@@ -20,6 +20,8 @@ const app = express();
 db.sequelize.sync();
 passportConfig();
 
+console.log(process.env.NODE_ENV);
+
 if (prod) {
     app.use(hpp());
     app.use(helmet());

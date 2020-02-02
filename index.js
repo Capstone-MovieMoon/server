@@ -14,10 +14,27 @@ const diaryAPIRouter = require('./routes/movie/diary');
 const wishAPIRouter = require('./routes/movie/wishlist');
 const movieAPIRouter = require('./routes/movie/search');
 
+const prod = process.env.NODE_ENV === 'production';
 dotenv.config();
 const app = express();
 db.sequelize.sync();
 passportConfig();
+
+if (prod) {
+    app.use(hpp());
+    app.use(helmet());
+    app.use(morgan('combined'));
+    app.use(cors({
+      origin: /nodebird\.com$/,
+      credentials: true,
+    }));
+  } else {
+    app.use(morgan('dev'));
+    app.use(cors({
+      origin: true,
+      credentials: true,
+    }));
+  }
 
 app.use(morgan('dev'));
 app.use('/',express.static('uploads'));

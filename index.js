@@ -20,18 +20,6 @@ const app = express();
 db.sequelize.sync();
 passportConfig();
 
-console.log(process.env.NODE_ENV);
-
-if (prod) {
-
-    
-  } else {
-    app.use(morgan('dev'));
-    app.use(cors({
-      origin: true,
-      credentials: true,
-    }));
-  }
 
 app.use(morgan('dev'));
 app.use('/',express.static('uploads'));

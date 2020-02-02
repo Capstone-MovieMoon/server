@@ -22,7 +22,7 @@ module.exports={
   production: {
     username: "root",
     password: process.env.DB_PASSWORD,
-    database: "m\test1",
+    database: "\test1",
     host: "127.0.0.1",
     dialect: "mysql",
     operatorsAliases: false

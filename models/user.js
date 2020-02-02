@@ -1,26 +1,33 @@
-module.exports = (sequelize, DataTypes)=>{
-const User = sequelize.define('User', {
-    user_id:{
-        type: DataTypes.STRING(30),
-        allowNull: false,
-        unique:true
+module.exports = (sequelize, DataTypes) => {
+  const user = sequelize.define('user', {
+    userId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique:true
     },
     password:{
-        type: DataTypes.STRING(100),
+        type:DataTypes.STRING,
         allowNull:false
     },
-    nickname : {
-        type: DataTypes.STRING(30),
-        allowNull: false,
+    nickname:{
+        type:DataTypes.STRING,
+        allowNull:false,
         unique:true
     },
-}, {
-    charset: 'utf8',
-    collate: 'utf8_general_ci', //이 부분이 있어야 한글이 저장됨
-});
-
-    User.associate = (db) =>{
-           //한 사람이 여러개의 글을 쓸 수 있다.
-    };
-    return User;
+    src:{
+      type: DataTypes.STRING,
+    }
+  }, {
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_general_ci',
+  });
+  user.associate = (db) => {
+    db.user.hasMany(db.rating);
+    db.user.hasMany(db.diary);
+    db.user.belongsToMany(db.movie,{through: db.wishlist});
+    db.user.hasMany(db.wishlist);
+    db.user.belongsToMany(db.movie,{through: db.diarylist});
+    db.user.hasMany(db.diarylist);
+  };
+  return user;
 };

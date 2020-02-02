@@ -8,7 +8,11 @@ const passport = require('passport');
 
 const passportConfig = require('./passport');
 const db = require('./models');
-const userAPIRouter = require('./routes/user')
+const boxAPIRouter = require('./routes/movie/boxoffice');
+const userAPIRouter = require('./routes/user');
+const diaryAPIRouter = require('./routes/movie/diary');
+const wishAPIRouter = require('./routes/movie/wishlist');
+const movieAPIRouter = require('./routes/movie/search');
 
 dotenv.config();
 const app = express();
@@ -16,6 +20,11 @@ db.sequelize.sync();
 passportConfig();
 
 app.use(morgan('dev'));
+app.use('/',express.static('uploads'));
+app.use(cors({
+    origin:true,
+    credentials:true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -31,19 +40,13 @@ app.use(expressSession({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors({
-    origin:true,
-    credentials:true,
-}));
 
-
-
-app.get('/', (req,res)=>{
-    res.send('Hello, server');
-}); 
 
 app.use('/api/user', userAPIRouter);
-
-app.listen(3006, ()=>{
-    console.log('server is running on localhost:3006');
+app.use('/api/diary', diaryAPIRouter);
+app.use('/api/wishlist', wishAPIRouter);
+app.use('/api/movie', movieAPIRouter);
+app.use('/api/boxoffice', boxAPIRouter);
+app.listen(4000, ()=>{
+    console.log('server is running on localhost:4000');
 });

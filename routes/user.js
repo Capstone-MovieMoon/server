@@ -2,65 +2,83 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const db = require('../models');
+const multer = require('multer');
+const path = require('path');
 
 const router = express.Router();
 
 router.get('/', function(req, res){
-    var output = `
-        <h1>Register</h1>
-        <form method="post">
-         <p>
-          <input type = "text", name="user_id" placeholder="user_id">
-         </p>
-         <p>
-          <input type="password" name="password" placeholder="password">
-         </p>
-         <p>
-          <input type="text" name="nickname" placeholder="nickname">
-         </p>
-         <p>
-          <input type="submit">
-         </p>
-        </form>
-        `;
-        res.send(output);
+
+})
+
+//
+const upload = multer({
+    storage: multer.diskStorage({
+      destination(req, file, done) {
+        done(null, 'uploads');
+      },
+      filename(req, file, done) {
+        const ext = path.extname(file.originalname);
+        const basename = path.basename(file.originalname, ext); // 제로초.png, basename = 제로초, ext = .png
+        done(null, basename + Date.now() + ext);
+      },
+    }),
+    limit: { fileSize: 20 * 1024 * 1024 },
+  });
+
+router.post('/image', upload.single('image'), (req,res)=>{      //이미지 업로드   /api/user/image
+    console.log(req.file);
+    res.json(req.file);
+})
+
+router.patch('/image', upload.none(), async(req,res,next)=>{
+    try {
+        await db.user.update({
+            src:req.body.image,
+        },{
+            where:{id:req.user.id},
+        });
+        res.send('프로필 사진 등록 완료!');
+    } catch (error) {
+        console.error(e);
+        next(e);
+    }
 })
 
 router.post('/', async (req, res, next) => {       // POST /api/user 회원가입
     try {
-        console.log(req.body.user_id);
-        const exUser = await db.User.findOne({
+        const exUser = await db.user.findOne({
             where: {
-                user_id: req.body.user_id,
+                userId: req.body.userId,
             },
         });
         if(exUser){
             return res.status(403).send('이미 사용중인 아이디입니다.');
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
-        const newUser = await db.User.create({
+        const newUser = await db.user.create({
             nickname: req.body.nickname,
-            user_id: req.body.user_id,
+            userId: req.body.userId,
             password: hashedPassword,
         })
         console.log(newUser);
-        return res.status(200).json(newUser);
+        return res.status(200).json(newUser).send('회원가입 성공!');
     } catch (e) {
-        console.e(e);
+        console.log(e);
         return res.status(403).send(e);
         return next(e);
     }
 });
 
 
-router.post('/logout/', (req,res)=>{
+router.post('/logout/', (req,res)=>{            //로그아웃      /api/user/logout
     req.logout();
     req.session.destroy();
     res.send('logout 성공');
 });
 
-router.post('/login', (req,res, next)=>{     //POST /api/user/login
-    passport.authenticate('local', (err, user, info)=>{
+router.post('/login', async (req,res, next)=>{     //POST /api/user/login
+    passport.authenticate('local', (err, userinfo, info)=>{
         if(err){
             console.error(err);
             return next(err);
@@ -68,28 +86,54 @@ router.post('/login', (req,res, next)=>{     //POST /api/user/login
         if(info){
             return res.status(401).send(info.reason);
         }
-        console.log('hello! '+user.nickname);
-        return req.login(user, (loginErr)=>{
+        console.log('hello! '+userinfo.nickname);
+        return req.login(userinfo, (loginErr)=>{
             if(loginErr){
                 return next(loginErr);
             }
-            const filteredUser = Object.assign({}, user.toJSON());
+            const filteredUser = Object.assign({}, userinfo.toJSON());
             delete filteredUser.password;
             return res.json(filteredUser);
         });
     })(req,res,next);
 });
 
-router.get('/:id/whislist/', (req,res)=>{       
-    
-});
-
-router.post('/:id/whislist/', (req,res)=>{
-    
+router.patch('/', async (req,res,next)=>{
+    try {
+        await db.user.update({
+            nickname:req.body.nickname,
+        },{
+            where:{id:req.user.id},
+        });
+        res.send('닉네임이'+req.body.nickname+'로 바뀌었습니다!');
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
 })
 
-router.delete('/:id/whislist/', (req,res)=>{
-    
+router.post('/delete', async (req,res,next)=>{              //회원탈퇴 /api/user/delete
+    try {
+        const findUser = await db.user.findOne({
+            where:{
+                userId : req.body.userId
+            }
+        })
+        if(!findUser){
+            return res.status(403).send('존재하지 않는 유저입니다.');
+        }
+        const deleteUser = await db.user.destroy({
+            where:{
+                userId : req.body.userId
+            }
+        })
+    } catch (e) {
+        console.log(e);
+        return res.status(403).send(e);
+        return next(e);
+    }
 })
+
+
 
 module.exports = router;

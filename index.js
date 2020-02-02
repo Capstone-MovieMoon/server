@@ -23,13 +23,8 @@ passportConfig();
 console.log(process.env.NODE_ENV);
 
 if (prod) {
-    app.use(hpp());
-    app.use(helmet());
-    app.use(morgan('combined'));
-    app.use(cors({
-      origin: /nodebird\.com$/,
-      credentials: true,
-    }));
+
+    
   } else {
     app.use(morgan('dev'));
     app.use(cors({
@@ -66,6 +61,9 @@ app.use('/api/diary', diaryAPIRouter);
 app.use('/api/wishlist', wishAPIRouter);
 app.use('/api/movie', movieAPIRouter);
 app.use('/api/boxoffice', boxAPIRouter);
+app.get('/', (req, res)=>{
+    res.send('백엔드 서버 정상 동작!');
+})
 app.listen(process.env.NODE_ENV==='production' ? process.env.PORT : 4000, ()=>{
     console.log(`server is running on ${process.env.PORT}`);
     console.log();

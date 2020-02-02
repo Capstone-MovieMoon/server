@@ -28,7 +28,7 @@ router.post('/image', upload.single('image'), (req,res)=>{      //이미지 업�
     res.json(req.file);
 })
 
-router.patch('/image', upload.none(), async(req,res,next)=>{
+router.patch('/image', upload.none(), async(req,res,next)=>{      //프로필 사진 변경  /api/user/image
     try {
         await db.user.update({
             src:req.body.image,
@@ -95,7 +95,7 @@ router.post('/login', async (req,res, next)=>{     //POST /api/user/login
     })(req,res,next);
 });
 
-router.patch('/', async (req,res,next)=>{
+router.patch('/nickname', async (req,res,next)=>{           //닉네임 변경 /api/user/nickname
     try {
         await db.user.update({
             nickname:req.body.nickname,

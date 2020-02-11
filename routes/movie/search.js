@@ -8,6 +8,7 @@ const Op = sequelize.Op;
 const router=express.Router();
 
 router.get('/searchbar',async(req,res,next)=>{          //api/movie/searchbar
+    console.log(req.query.korTitle)
     try{
         const searchMovieList=await db.movie.findAll({
             where:{

@@ -120,7 +120,7 @@ router.post('/delete', async (req,res,next)=>{              //회원탈퇴 /api/
     try {
         const findUser = await db.user.findOne({
             where:{
-                userId : req.body.userId
+                userId : req.user.userId
             }
         })
         if(!findUser){
@@ -128,7 +128,7 @@ router.post('/delete', async (req,res,next)=>{              //회원탈퇴 /api/
         }
         const deleteUser = await db.user.destroy({
             where:{
-                userId : req.body.userId
+                userId : req.user.userId
             }
         })
     } catch (e) {

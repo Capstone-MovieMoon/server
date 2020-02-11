@@ -8,10 +8,10 @@ const db=require('../../models')
 const router=express.Router()
 
 
-router.get('/',async(req,res,next)=>{        //api/boxoffice
+router.get('/:year',async(req,res,next)=>{        //api/boxoffice/:year
     const boxOfficeList=await db.boxoffice.findAll({
         where: {
-            year:req.body.year//어떤값을 보내주는지확인
+            year:req.params.year//어떤값을 보내주는지확인
         },        
         order:[['ranking']]
     });

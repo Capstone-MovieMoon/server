@@ -7,12 +7,12 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const router=express.Router();
 
-router.get('/searchbar',async(req,res,next)=>{          //api/movie/searchbar
+router.get('/searchbar/:korTitle',async(req,res,next)=>{          //api/movie/searchbar/:korTitle
     try{
         const searchMovieList=await db.movie.findAll({
             where:{
                 korTitle:{
-                    [Op.like]: "%"+req.body.korTitle+"%"
+                    [Op.like]: "%"+req.params.korTitle+"%"
                 }
             },
             attributes:['korTitle', 'genres', 'releaseDate', 'makingNation','poster', 'id']
@@ -27,10 +27,10 @@ router.get('/searchbar',async(req,res,next)=>{          //api/movie/searchbar
     }
 })
 
-router.get('/detail',async(req,res,next)=>{         //api/movie/detail
+router.get('/detail/:id',async(req,res,next)=>{         //api/movie/detail/:id
     try{
         const findDetailMovie=await db.movie.findOne({
-            where:{id:req.body.id},
+            where:{id:req.params.id},
         })
         if(findDetailMovie){
             return res.status(200).json(findDetailMovie);

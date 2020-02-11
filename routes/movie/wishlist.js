@@ -7,7 +7,7 @@ const router=express.Router()
 router.get('/', async(req,res,next)=>{          // /api/wishlist
     try{
     const loadWishlist= await db.sequelize.models.wishlist.findAll({
-        where:{userId:req.body.userId},
+        where:{userId:req.user.id},
         order:[['createdAt','DESC']]
     })
     
@@ -48,7 +48,7 @@ router.post('/', async (req,res, next)=>{             // /api/wishlist
    }
 });
 
-router.delete('/', async (req,res)=>{
+router.delete('/', async (req,res)=>{                   //    /api/wishlist
     try {
         const findwish = await db.sequelize.models.wishlist.findOne({
             where:{

@@ -27,10 +27,10 @@ router.post('/image', upload.array('image'), (req,res)=>{      //이미지 업�
     console.log(req.files);
     res.json(req.files.map(v=>v.location));
 })
-router.get('/',async(req,res,next)=>{   //다이어리 리스트       //    /api/diary
+router.get('',async(req,res,next)=>{   //다이어리 리스트       //    /api/diary
     try{
         const loadDiary=await db.sequelize.models.diarylist.findAll({
-           where:{userId:req.body.userId},
+           where:{userId:req.user.id},
            order:[['createdAt','DESC']]
         })
         console.log(loadDiary);
@@ -44,12 +44,12 @@ router.get('/',async(req,res,next)=>{   //다이어리 리스트       //    /ap
     }
 })
 
-router.get('/detail',async(req,res,next)=>{   //상세다이어리        /api/diary/detail
+router.get('/detail/:userId/:movieId',async(req,res,next)=>{   //상세다이어리        /api/diary/detail/:userId/:movieId
     try{
         const loadDiaryDetail=await db.sequelize.models.diarylist.findOne({
             where:{
-                userId:req.body.userId,
-                movieId:req.body.movieId, 
+                userId:req.params.userId,
+                movieId:req.params.movieId, 
             },
             include:[{
                 model:db.movie,

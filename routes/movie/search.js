@@ -8,8 +8,8 @@ const Op = sequelize.Op;
 const router=express.Router();
 
 router.get('/searchbar',async(req,res,next)=>{          //api/movie/searchbar
-    console.log(req.query.korTitle)
     try{
+        console.log(req.query.korTitle)
         const searchMovieList=await db.movie.findAll({
             where:{
                 korTitle:{
@@ -28,10 +28,10 @@ router.get('/searchbar',async(req,res,next)=>{          //api/movie/searchbar
     }
 })
 
-router.get('/detail/:id',async(req,res,next)=>{         //api/movie/detail/:id
+router.get('/detail',async(req,res,next)=>{         //api/movie/detail
     try{
         const findDetailMovie=await db.movie.findOne({
-            where:{id:req.params.id},
+            where:{id:req.query.id},
         })
         if(findDetailMovie){
             return res.status(200).json(findDetailMovie);

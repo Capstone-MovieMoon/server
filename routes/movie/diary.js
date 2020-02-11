@@ -44,12 +44,12 @@ router.get('',async(req,res,next)=>{   //다이어리 리스트       //    /api
     }
 })
 
-router.get('/detail/:userId/:movieId',async(req,res,next)=>{   //상세다이어리        /api/diary/detail/:userId/:movieId
+router.get('/detail',async(req,res,next)=>{   //상세다이어리        /api/diary/detail
     try{
         const loadDiaryDetail=await db.sequelize.models.diarylist.findOne({
             where:{
-                userId:req.params.userId,
-                movieId:req.params.movieId, 
+                userId:req.user.id,
+                movieId:req.query.movieId, 
             },
             include:[{
                 model:db.movie,
@@ -63,7 +63,7 @@ router.get('/detail/:userId/:movieId',async(req,res,next)=>{   //상세다이어
         })
         const loadDiaryImage=await db.diaryimage.findOne({
             where:{
-                diaryId:req.body.diaryId
+                diaryId:req.query.diaryId
             }
         })
         return res.status(200).json(loadDiaryDetail+loadDiaryImage);

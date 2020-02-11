@@ -7,12 +7,12 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const router=express.Router();
 
-router.get('/searchbar/:korTitle',async(req,res,next)=>{          //api/movie/searchbar/:korTitle
+router.get('/searchbar',async(req,res,next)=>{          //api/movie/searchbar
     try{
         const searchMovieList=await db.movie.findAll({
             where:{
                 korTitle:{
-                    [Op.like]: "%"+req.params.korTitle+"%"
+                    [Op.like]: "%"+req.query.korTitle+"%"
                 }
             },
             attributes:['korTitle', 'genres', 'releaseDate', 'makingNation','poster', 'id']

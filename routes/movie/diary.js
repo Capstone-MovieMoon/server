@@ -57,7 +57,7 @@ router.get('/detail',async(req,res,next)=>{   //상세다이어리        /api/d
             },
             {
                 model:db.diary,
-                attributes:['memo','createdAt']
+                attributes:['memo','createDate']
             }
             ],
         })

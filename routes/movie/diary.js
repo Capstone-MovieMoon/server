@@ -69,7 +69,7 @@ router.get('/detail',async(req,res,next)=>{   //상세다이어리        /api/d
             }
         })
         console.log(3)
-        return res.status(200).json(loadDiaryDetail+loadDiaryImage);
+        return res.status(200).json(loadDiaryDetail);
     }catch(e){
         console.error(e)
         next(e)

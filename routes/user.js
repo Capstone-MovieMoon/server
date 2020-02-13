@@ -18,7 +18,6 @@ AWS.config.update({
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
   });
 
-console.log('업로드 시작');
 const upload = multer({
     storage: multerS3({
       s3: new AWS.S3(),

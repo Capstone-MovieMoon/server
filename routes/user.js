@@ -31,7 +31,7 @@ const upload = multer({
 
 router.post('/image', upload.single('image'), (req,res)=>{      //이미지 업로드   /api/user/image
     console.log(req.file);
-    res.json(req.file);
+    res.json(req.file.location);
 })
 
 router.patch('/image', upload.none(), async(req,res,next)=>{      //프로필 사진 변경  /api/user/image

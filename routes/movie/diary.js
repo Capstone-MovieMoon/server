@@ -27,7 +27,7 @@ router.post('/image', upload.array('image'), (req,res)=>{      //이미지 업�
     console.log(req.files);
     res.json(req.files.map(v=>v.location));
 })
-router.get('',async(req,res,next)=>{   //다이어리 리스트       //    /api/diary
+router.get('/',async(req,res,next)=>{   //다이어리 리스트       //    /api/diary
     try{
         const loadDiary=await db.sequelize.models.diarylist.findAll({
            where:{userId:req.user.id},

@@ -46,29 +46,21 @@ router.get('',async(req,res,next)=>{   //다이어리 리스트       //    /api
 
 router.get('/detail',async(req,res,next)=>{   //상세다이어리        /api/diary/detail
     try{
-        console.log(1)
-        const loadDiaryDetail=await db.sequelize.models.diarylist.findOne({
+        const loadDiaryDetail=await db.diary.findOne({
             where:{
                 userId:req.user.id,
-                movieId:req.query.movieId, 
+                id:req.query.diaryId 
             },
             include:[{
                 model:db.movie,
                 attributes:['korTitle','makingNation','releaseDate']
             },
             {
-                model:db.diary,
-                attributes:['memo','createDate']
+                model:db.diaryimage,
+                attributes:['src']
             }
             ],
         })
-        console.log(2)
-        const loadDiaryImage=await db.diaryimage.findOne({
-            where:{
-                diaryId:req.query.diaryId
-            }
-        })
-        console.log(3)
         return res.status(200).json(loadDiaryDetail);
     }catch(e){
         console.error(e)

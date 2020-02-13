@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         type:DataTypes.TEXT,
         allowNull: false
       },
-      releaseData:{
+      releaseDate:{
         type:DataTypes.TEXT,
         allowNull: false
       },

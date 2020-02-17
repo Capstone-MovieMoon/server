@@ -100,14 +100,20 @@ router.post('/',async(req,res,next)=>{          //다이어리 등록         /a
             diaryId:createDiary.id
         });
         console.log(createDiarylist);
-        if(req.body.image){                 //이미지 주소를 여러개 올리면 image: [주소1, 주소2]    
-            const image = await db.diaryimage.create({
-                src:req.body.image,
-                diaryId:createDiary.id
-            });
-           
-        }
+        if(req.body.image){                 //이미지 주소를 여러개 올리면 image: [주소1, 주소2]
+            if(Array.isArray(req.body.image)){
+                const images = await Promise.all(req.body.image.map((image)=>{
+                    return db.diaryimage.create({src:image, diaryId:createDiary.id});
+                }));
+            }
+            else{           //이미지를 하나만 올리면 image:주소
+                const image = await db.diaryimage.create({
+                    src:req.body.image,
+                    diaryId:createDiary.id
+                });
+            }
         return res.status(201).send("다이어리 등록에 성공하였습니다.");
+        }
         }catch(e){
             console.log(e);
             res.status(403).send(e);

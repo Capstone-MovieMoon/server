@@ -5,6 +5,7 @@ module.exports=(sequelize,DataTypes)=>{
     {
         charset: 'utf8',
         collate: 'utf8_general_ci',
+        timestamps: false
     });
     diaryimage.associate=(db)=>{
         db.diaryimage.belongsTo(db.diary)

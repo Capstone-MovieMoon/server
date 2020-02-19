@@ -26,10 +26,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     actor:{         //배우
       type:DataTypes.STRING
+    },
+    plot:{
+      type:DataTypes.STRING
+    },
+    producer:{
+      type:DataTypes.STRING
     }
-
-
-
   }, {
     charset: 'utf8mb4',
     collate: 'utf8mb4_general_ci',

@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING
     },
     actor:{         //배우
-      type:DataTypes.STRING
+      type:DataTypes.TEXT
     },
     plot:{
       type:DataTypes.TEXT

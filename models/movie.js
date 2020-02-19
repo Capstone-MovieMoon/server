@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     poster:{          //포스터url
       type:DataTypes.STRING
     },
-    runninngtime:{     //런닝타임
+    runningtime:{     //런닝타임
       type:DataTypes.INTEGER
     },
     director:{        //감독
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.TEXT
     },
     producer:{
-      type:DataTypes.STRING
+      type:DataTypes.TEXT
     }
   }, {
     charset: 'utf8mb4',

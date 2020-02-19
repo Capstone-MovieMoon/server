@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING
     },
     plot:{
-      type:DataTypes.STRING
+      type:DataTypes.TEXT
     },
     producer:{
       type:DataTypes.STRING

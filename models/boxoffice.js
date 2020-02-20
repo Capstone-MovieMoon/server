@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
           },
      movieId:{
-       type:DataTypes,INTEGER,
+       type:DataTypes.INTEGER,
        allowNull: false
      }
     }, 

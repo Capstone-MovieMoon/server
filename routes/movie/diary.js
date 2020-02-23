@@ -110,8 +110,8 @@ router.post('/',async(req,res,next)=>{          //다이어리 등록         /a
                     diaryId:createDiary.id
                 });
             }
-        return res.status(201).send("다이어리 등록에 성공하였습니다.");
         }
+        return res.status(201).send("다이어리 등록에 성공하였습니다.");
         }catch(e){
             console.log(e);
             res.status(403).send(e);

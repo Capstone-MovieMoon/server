@@ -92,14 +92,12 @@ router.post('/',async(req,res,next)=>{          //다이어리 등록         /a
                 id:req.body.movieId
             }
         })
-        console.log(createDiary);
         const createDiarylist = await db.diarylist.create({
             movieId:req.body.movieId,
             userId:req.body.userId,
             poster:findposter.poster,
             diaryId:createDiary.id
         });
-        console.log(createDiarylist);
         if(req.body.image){                 //이미지 주소를 여러개 올리면 image: [주소1, 주소2]
             if(Array.isArray(req.body.image)){
                 const images = await Promise.all(req.body.image.map((image)=>{

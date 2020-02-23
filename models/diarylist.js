@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       charset: 'utf8mb4',
       collate: 'utf8mb4_general_ci',
-      timestamps: false
     });
     diarylist.associate = (db) => {
         db.diarylist.belongsTo(db.user);

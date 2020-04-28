@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const rating = sequelize.define('rating', {
-  myRating:{
+  userRating:{
       type:DataTypes.DOUBLE
   }
 
@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   rating.associate = (db) => {
     db.rating.belongsTo(db.user);
     db.rating.belongsTo(db.movie);
-    db.rating.belongsToMany(db.diary,{through:'userRating'})
+    db.rating.hasOne(db.diary);
   };
   return rating;
 };

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     collate: 'utf8mb4_general_ci',
   });
   diary.associate = (db) => {
-    db.diary.belongsToMany(db.rating,{through:'userRating'});
+    db.diary.hasOne(db.rating);
     db.diary.hasMany(db.diaryimage);
     db.diary.belongsTo(db.movie);
     db.diary.belongsTo(db.user);

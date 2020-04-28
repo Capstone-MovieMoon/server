@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     createDate:{
       type:DataTypes.TEXT,
       allowNull: false
+    },
+    myRating:{
+      type:DataTypes.DOUBLE,
+      allowNull: false
     }
   }, {
     charset: 'utf8mb4',
@@ -18,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
     db.diary.hasMany(db.diaryimage);
     db.diary.belongsTo(db.movie);
     db.diary.belongsTo(db.user);
-    db.diary.hasOne(db.diarylist);
   };
   return diary;
 };

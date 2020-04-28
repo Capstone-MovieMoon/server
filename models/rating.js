@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   rating.associate = (db) => {
     db.rating.belongsTo(db.user);
     db.rating.belongsTo(db.movie);
-    db.rating.hasOne(db.diary);
+    db.rating.belongsTo(db.diary);
   };
   return rating;
 };

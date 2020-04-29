@@ -100,9 +100,10 @@ router.post('/',async(req,res,next)=>{          //다이어리 등록         /a
             diaryId:createDiary.id
         });
         const createUserRating = await db.rating.create({
-            moiveId:req.body.movieId,
+            movieId:req.body.movieId,
             userId:req.body.userId,
-            userRating:req.body.rating
+            userRating:req.body.rating,
+            diaryId:createDiary.id
         });
         if(req.body.image){                 //이미지 주소를 여러개 올리면 image: [주소1, 주소2]
             if(Array.isArray(req.body.image)){

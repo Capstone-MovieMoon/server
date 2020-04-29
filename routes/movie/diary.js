@@ -85,7 +85,8 @@ router.post('/',async(req,res,next)=>{          //다이어리 등록         /a
          movieId:req.body.movieId, 
          userId:req.body.userId,
          memo:req.body.memo,
-         createDate:req.body.createDate
+         createDate:req.body.createDate,
+         myRating:req.body.rating
         })
         const findposter = await db.movie.findOne({
             where:{
@@ -97,6 +98,11 @@ router.post('/',async(req,res,next)=>{          //다이어리 등록         /a
             userId:req.body.userId,
             poster:findposter.poster,
             diaryId:createDiary.id
+        });
+        const createUserRating = await db.rating.create({
+            moiveId:req.body.movieId,
+            userId:req.body.userId,
+            userRating=req.body.rating
         });
         if(req.body.image){                 //이미지 주소를 여러개 올리면 image: [주소1, 주소2]
             if(Array.isArray(req.body.image)){
@@ -151,6 +157,32 @@ router.patch('/createDate', async(req, res, next)=>{            //  다이어리
         next(e);
     }
 })
+
+router.patch('/myRating', async(req, res, next)=>{            //  다이어리 작성날짜 수정 /api/diary/myRating
+    try {
+        await db.diary.update({
+            myRating:req.body.rating,
+        },{
+            where:{
+                userId:req.body.userId,
+                movieId:req.body.movieId
+            }
+        })
+        await db.rating.update({
+            userRating:req.body.rating,
+        },{
+            where:{
+                userId:req.body.userId,
+                movieId:req.body.movieId
+            }
+        })
+        res.send('다이어리의 myRating이 '+req.body.rating+'로 바뀌었습니다.');
+    } catch (e) {
+        console.log(e);
+        next(e);
+    }
+})
+
 router.patch('/image', async(req, res, next)=>{            //  다이어리 사진 수정 /api/diary/image
     try {
         await db.diaryimage.update({
@@ -208,6 +240,12 @@ router.delete('/', async(req, res, next)=>{         //  다이어리 삭제 /api
                 id:req.body.diaryId
             }
         });
+        const deleteRating = await db.rating.destroy({
+            where:{
+                userId:req.body.userId,
+                movieId:req.body.movieId
+            }
+        })
 
 
         return res.status(201).send('다이어리 삭제 성공!');

@@ -2,3 +2,5 @@
 * text=auto
 ratings.csv filter=lfs diff=lfs merge=lfs -text
 genome-scores.csv filter=lfs diff=lfs merge=lfs -text
+ratigns.csv.psd filter=lfs diff=lfs merge=lfs -text
+genome-scores.csv.psd filter=lfs diff=lfs merge=lfs -text

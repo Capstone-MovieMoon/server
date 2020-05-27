@@ -118,7 +118,7 @@ router.post('/',async(req,res,next)=>{          //다이어리 등록         /a
                 });
             }
         }
-        return res.status(201).send("다이어리 등록에 성공하였습니다.");
+        return res.status(200).send("다이어리 등록에 성공하였습니다.");
         }catch(e){
             console.log(e);
             res.status(403).send(e);
@@ -135,7 +135,7 @@ router.patch('/memo', async(req, res, next)=>{            //  다이어리 메�
                 movieId:req.body.movieId
             }
         })
-        res.send('다이어리의 memo가 '+req.body.memo+'로 바뀌었습니다.');
+        res.status(201).send('다이어리의 memo가 '+req.body.memo+'로 바뀌었습니다.');
     } catch (e) {
         console.log(e);
         next(e);
@@ -152,7 +152,7 @@ router.patch('/createDate', async(req, res, next)=>{            //  다이어리
                 movieId:req.body.movieId
             }
         })
-        res.send('다이어리의 createDate가 '+req.body.createDate+'로 바뀌었습니다.');
+        res.status(201).send('다이어리의 createDate가 '+req.body.createDate+'로 바뀌었습니다.');
     } catch (e) {
         console.log(e);
         next(e);
@@ -177,7 +177,7 @@ router.patch('/myRating', async(req, res, next)=>{            //  다이어리 �
                 movieId:req.body.movieId
             }
         })
-        res.send('다이어리의 myRating이 '+req.body.rating+'로 바뀌었습니다.');
+        res.status(201).send('다이어리의 myRating이 '+req.body.rating+'로 바뀌었습니다.');
     } catch (e) {
         console.log(e);
         next(e);
@@ -193,7 +193,7 @@ router.patch('/image', async(req, res, next)=>{            //  다이어리 사�
                 diaryId:req.body.diaryId
             }
         })
-        res.send('다이어리의 사진 수정 완료!');
+        res.status(201).send('다이어리의 사진 수정 완료!');
     } catch (e) {
         console.log(e);
         next(e);
@@ -249,7 +249,7 @@ router.delete('/', async(req, res, next)=>{         //  다이어리 삭제 /api
         })
 
 
-        return res.status(201).send('다이어리 삭제 성공!');
+        return res.status(200).send('다이어리 삭제 성공!');
         
     } catch (e) {
         console.log(e);

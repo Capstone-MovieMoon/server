@@ -41,7 +41,7 @@ router.patch('/image', upload.none(), async(req,res,next)=>{      //프로필 �
         },{
             where:{id:req.user.id},
         });
-        res.send('프로필 사진 등록 완료!');
+        res.status(201).send('프로필 사진 등록 완료!');
     } catch (e) {
         console.error(e);
         next(e);
@@ -77,7 +77,7 @@ router.post('/', async (req, res, next) => {       // POST /api/user 회원가�
 router.post('/logout/', (req,res)=>{            //로그아웃      /api/user/logout
     req.logout();
     req.session.destroy();
-    res.send('logout 성공');
+    res.status(200).send('logout 성공');
 });
 
 router.post('/login', async (req,res, next)=>{     //POST /api/user/login
@@ -96,7 +96,7 @@ router.post('/login', async (req,res, next)=>{     //POST /api/user/login
             }
             const filteredUser = Object.assign({}, userinfo.toJSON());
             delete filteredUser.password;
-            return res.json(filteredUser);
+            return res.status(200).json(filteredUser);
         });
     })(req,res,next);
 });

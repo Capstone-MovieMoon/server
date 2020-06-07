@@ -14,6 +14,7 @@ db.diaryimage=require('./diaryimage')(sequelize,Sequelize);
 db.wishlist=require('./wishlist')(sequelize,Sequelize);
 db.diarylist=require('./diarylist')(sequelize,Sequelize);
 db.boxoffice=require('./boxoffice')(sequelize,Sequelize);
+db.recommend=require('./recommend')(sequelize,Sequelize);
 Object.keys(db).forEach(modelName => {//Object.keys는 객체를 배열로 바꿔준다.
   if (db[modelName].associate) {
     db[modelName].associate(db);

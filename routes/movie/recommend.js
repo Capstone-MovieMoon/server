@@ -1,10 +1,10 @@
-//load wishlist
+//load recommend
 const express=require('express')
 const db=require('../../models')
 
 const router=express.Router()
 
-router.get('/', async(req,res,next)=>{          // /api/wishlist
+router.get('/', async(req,res,next)=>{          // /api/recommend
     try{
     const loadrecommend= await db.sequelize.models.recommend.findAll({
         where:{userId:req.user.id},

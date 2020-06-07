@@ -13,6 +13,7 @@ const userAPIRouter = require('./routes/user');
 const diaryAPIRouter = require('./routes/movie/diary');
 const wishAPIRouter = require('./routes/movie/wishlist');
 const movieAPIRouter = require('./routes/movie/search');
+const recommendAPIRouter = require('./routes/movie/recommend');
 
 const prod = process.env.NODE_ENV === 'production';
 dotenv.config();
@@ -49,6 +50,7 @@ app.use('/api/diary', diaryAPIRouter);
 app.use('/api/wishlist', wishAPIRouter);
 app.use('/api/movie', movieAPIRouter);
 app.use('/api/boxoffice', boxAPIRouter);
+app.use('/api/recommend', recommendAPIRouter);
 
 app.get('/', (req, res)=>{
     res.send('백엔드 서버 정상 동작!');

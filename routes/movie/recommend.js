@@ -6,6 +6,7 @@ const router=express.Router()
 
 router.get('/', async(req,res,next)=>{          // /api/recommend
     try{
+    console.log("recommend");
     const loadrecommend= await db.sequelize.models.recommend.findAll({
         where:{userId:req.user.id},
         include:[{

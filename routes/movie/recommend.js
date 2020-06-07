@@ -8,7 +8,12 @@ router.get('/', async(req,res,next)=>{          // /api/wishlist
     try{
     const loadrecommend= await db.sequelize.models.recommend.findAll({
         where:{userId:req.user.id},
-    })
+        include:[{
+            model:db.movie,
+            attributes:['poster']
+        }]
+    });
+    
     
     res.status(200).json(loadrecommend)
     }catch(e){
